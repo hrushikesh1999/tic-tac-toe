@@ -42,75 +42,87 @@ const selectRandomPosition = (rows: MatrixItem[][]): MatrixPosition | null => {
   return null;
 };
 
-const identifyHorizontal = (rows: MatrixItem[][]): boolean => {
-  let isgameFinished = false;
+const identifyHorizontal = (rows: MatrixItem[][]): string => {
+  let finishedBy = "";
   for (let x = 0; x < rows.length; x++) {
     for (let y = 0; y < rows[x].length - 1; y++) {
       if (!rows[x][y] || !rows[x][y + 1] || rows[x][y] !== rows[x][y + 1]) {
-        isgameFinished = false;
+        finishedBy = "";
         break;
       }
-      isgameFinished = true;
+      finishedBy = rows[x][y] as string;
     }
-    if (isgameFinished) break;
+    if (finishedBy) break;
   }
-  return isgameFinished;
+  return finishedBy;
 };
 
-const identifyVertical = (rows: MatrixItem[][]): boolean => {
-  let isgameFinished = false;
+const identifyVertical = (rows: MatrixItem[][]): string => {
+  let finishedBy = "";
   for (let x = 0; x < rows.length; x++) {
     for (let y = 0; y < rows[x].length - 1; y++) {
       if (!rows[y][x] || !rows[y + 1][x] || rows[y][x] !== rows[y + 1][x]) {
-        isgameFinished = false;
+        finishedBy = "";
         break;
       }
-      isgameFinished = true;
+      finishedBy = rows[y][x] as string;
     }
-    if (isgameFinished) break;
+    if (finishedBy) break;
   }
-  return isgameFinished;
+  return finishedBy;
 };
 
-const identifyInclined1 = (rows: MatrixItem[][]): boolean => {
-  let isgameFinished = false;
+const identifyInclined1 = (rows: MatrixItem[][]): string => {
+  let finishedBy = "";
   for (let i = 0; i < rows.length - 1; i++) {
     if (
       !rows[i][i] ||
       !rows[i + 1][i + 1] ||
       rows[i][i] !== rows[i + 1][i + 1]
     ) {
-      isgameFinished = false;
+      finishedBy = "";
       break;
     }
-    isgameFinished = true;
+    finishedBy = rows[i][i] as string;
   }
-  return isgameFinished;
+  return finishedBy;
 };
 
-const identifyInclined2 = (rows: MatrixItem[][]): boolean => {
-  let isgameFinished = false;
+const identifyInclined2 = (rows: MatrixItem[][]): string => {
+  let finishedBy = "";
   for (let x = 0, y = rows.length - 1; x < rows.length - 1 && y > 0; x++, y--) {
     if (
       !rows[x][y] ||
       !rows[x + 1][y - 1] ||
       rows[x][y] !== rows[x + 1][y - 1]
     ) {
-      isgameFinished = false;
+      finishedBy = "";
       break;
     }
-    isgameFinished = true;
+    finishedBy = rows[x][y] as string;
   }
-  return isgameFinished;
+  return finishedBy;
 };
 
-const identifyGameFinish = (rows: MatrixItem[][]): boolean => {
+const identifyGameFinish = (rows: MatrixItem[][]): string => {
   return (
     identifyHorizontal(rows) ||
     identifyVertical(rows) ||
     identifyInclined1(rows) ||
     identifyInclined2(rows)
   );
+};
+
+const renderGameFinish = (gameFinishedBy: string) => {
+  if (gameFinishedBy) {
+    if (gameFinishedBy === "x") {
+      return "You Won!";
+    } else {
+      return "You Lose!";
+    }
+  } else {
+    return null;
+  }
 };
 
 const Home = () => {
@@ -120,15 +132,15 @@ const Home = () => {
     [undefined, undefined, undefined],
   ]);
   const [switchPlayer, setSwitchPlayer] = useState(true);
-  const [isGameFinished, setIsGameFinished] = useState(false);
+  const [gameFinishedBy, setGameFinishedBy] = useState("");
 
   useEffect(() => {
-    if (identifyGameFinish(rows)) setIsGameFinished(true);
+    const finishedBy = identifyGameFinish(rows);
+    if (finishedBy) setGameFinishedBy(finishedBy);
   }, [rows]);
 
   useEffect(() => {
-    console.log(isGameFinished);
-    if (!switchPlayer && !isGameFinished) {
+    if (!switchPlayer && !gameFinishedBy) {
       const matrixPosition = selectRandomPosition(rows);
       if (matrixPosition !== null) {
         const { rowIndex, colIndex } = matrixPosition;
@@ -142,11 +154,11 @@ const Home = () => {
         setSwitchPlayer((prevState) => !prevState);
       }
     }
-  }, [switchPlayer, isGameFinished]);
+  }, [switchPlayer, gameFinishedBy]);
 
   const handleItemClick =
     (rowIndex: number, colIndex: number, value: MatrixItem) => () => {
-      if (switchPlayer && value === undefined && !isGameFinished) {
+      if (switchPlayer && value === undefined && !gameFinishedBy) {
         setRows((prevState) => {
           let newRows = [...prevState];
           newRows[rowIndex][colIndex] = "x";
@@ -169,7 +181,7 @@ const Home = () => {
           ))}
         </Grid>
       ))}
-      <h3>{isGameFinished ? "Game Over" : null}</h3>
+      <h3>{renderGameFinish(gameFinishedBy)}</h3>
     </Box>
   );
 };
