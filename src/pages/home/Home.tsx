@@ -113,12 +113,17 @@ const identifyGameFinish = (rows: MatrixItem[][]): string => {
   );
 };
 
+const checkIfAllBoxesSelected = (rows: MatrixItem[][]): boolean =>
+  rows.every((row) => row.every((col) => col !== undefined));
+
 const renderGameFinish = (gameFinishedBy: string) => {
   if (gameFinishedBy) {
     if (gameFinishedBy === "x") {
       return "You Won!";
-    } else {
+    } else if (gameFinishedBy === "o") {
       return "You Lose!";
+    } else {
+      return "Draw!";
     }
   } else {
     return null;
@@ -136,7 +141,13 @@ const Home = () => {
 
   useEffect(() => {
     const finishedBy = identifyGameFinish(rows);
-    if (finishedBy) setGameFinishedBy(finishedBy);
+    if (finishedBy) {
+      setGameFinishedBy(finishedBy);
+    } else {
+      if (checkIfAllBoxesSelected(rows)) {
+        setGameFinishedBy("draw");
+      }
+    }
   }, [rows]);
 
   useEffect(() => {
