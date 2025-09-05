@@ -1,46 +1,82 @@
-# Getting Started with Create React App
+# Tic Tac Toe
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern Tic Tac Toe game built with React and Material UI, featuring both single-player and multiplayer modes using Socket.IO.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Play against the computer (single-player)
+- Play with friends in real-time (multiplayer)
+- Room-based multiplayer with easy join
+- Responsive UI with Material UI components
+- Game restart and draw detection
 
-### `npm start`
+## Showcase
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Single Player
+![Single Player](support_shots/single-player.gif)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Multi Player
+![Multi Player](support_shots/multi-player.gif)
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js (v14 or higher)
+- npm
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/hrushikesh1999/tic-tac-toe
+   cd tic-tac-toe
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-### `npm run eject`
+3. Set up environment variables:
+   - Edit `.env` and set your backend URL:
+     ```
+     REACT_APP_BACKEND_URL='http://localhost:3001/'
+     ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+4. Start the development server:
+   ```sh
+   npm start
+   ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Usage
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- **Single Player:** Select the single player tab and play against the computer.
+- **Multiplayer:** Select the multiplayer tab, enter a room ID, and invite a friend to join the same room.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Project Structure
 
-## Learn More
+```
+src/
+  components/
+  config/
+  pages/
+    home/
+      components/
+      functions/
+  types/
+public/
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Technologies Used
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- React
+- Material UI
+- Socket.IO
+- TypeScript
+
+## License
+
+This project is licensed under the MIT License.
+
+---
